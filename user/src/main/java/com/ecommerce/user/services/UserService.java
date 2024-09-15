@@ -5,6 +5,7 @@ import com.ecommerce.user.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -23,11 +24,15 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public UserModel findByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public UserModel findById(UUID id) {
+        return userRepository.findById(id).orElse(null);
     }
 
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
+    }
+
+    public boolean existsById(UUID userId) {
+        return userRepository.existsById(userId);
     }
 }

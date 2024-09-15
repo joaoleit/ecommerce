@@ -23,4 +23,28 @@ public class OrderModel implements Serializable {
     @Convert(converter = StringListConverter.class)
     @Column(name = "items", nullable = false)
     private List<String> items = new ArrayList<>();
+
+    public UUID getId() {
+        return id;
+    }
+
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public UUID getUserId() {
+        return userId;
+    }
+
+    public void setUserId(UUID userId) {
+        this.userId = userId;
+    }
+
+    public List<String> getItems() {
+        return items;
+    }
+
+    public void setItems(List<String> items) {
+        this.items = items;
+    }
 }

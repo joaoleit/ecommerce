@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -37,11 +38,11 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.findAll());
     }
 
-    @GetMapping("/users/{email}")
-    public ResponseEntity<UserModel> getUserByEmail(@PathVariable String email) {
-        if (!userService.existsByEmail(email)) {
+    @GetMapping("/users/{userId}")
+    public ResponseEntity<UserModel> getUserByEmail(@PathVariable UUID userId) {
+        if (!userService.existsById(userId)) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-        return ResponseEntity.status(HttpStatus.OK).body(userService.findByEmail(email));
+        return ResponseEntity.status(HttpStatus.OK).body(userService.findById(userId));
     }
 }
