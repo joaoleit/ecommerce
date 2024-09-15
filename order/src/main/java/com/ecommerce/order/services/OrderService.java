@@ -36,6 +36,4 @@ public class OrderService {
         UserModel user = userService.getUserById(userId);
         return new OrderDetailModel(order.get(), user);
     }
-
-
 }

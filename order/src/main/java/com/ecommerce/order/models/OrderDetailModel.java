@@ -1,28 +1,60 @@
 package com.ecommerce.order.models;
 
+import java.util.List;
+import java.util.UUID;
+
 public class OrderDetailModel {
-    private OrderModel order;
-    private UserModel user;
+    private UUID id;
+    private UUID userId;
+    private String name;
+    private String email;
+    private List<String> items;
 
     public OrderDetailModel(OrderModel order, UserModel user) {
-        this.order = order;
-        this.user = user;
+        this.id = order.getId();
+        this.userId = user.getId();
+        this.name = user.getName();
+        this.email = user.getEmail();
+        this.items = order.getItems();
     }
 
-    public OrderModel getOrder() {
-        return order;
+    public UUID getId() {
+        return id;
     }
 
-    public void setOrder(OrderModel order) {
-        this.order = order;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
-    public UserModel getUser() {
-        return user;
+    public UUID getUserId() {
+        return userId;
     }
 
-    public void setUser(UserModel user) {
-        this.user = user;
+    public void setUserId(UUID userId) {
+        this.userId = userId;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public List<String> getItems() {
+        return items;
+    }
+
+    public void setItems(List<String> items) {
+        this.items = items;
+    }
 }
