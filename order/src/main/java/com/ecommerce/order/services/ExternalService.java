@@ -9,17 +9,17 @@ import org.springframework.web.client.RestTemplate;
 import java.util.UUID;
 
 @Service
-public class UserService {
+public class ExternalService {
 
     private final RestTemplate restTemplate;
 
-    public UserService(RestTemplate restTemplate) {
+    public ExternalService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
-    public UserModel getUserById(UUID id) {
+    public String getTest() {
         try {
-            return restTemplate.getForObject("http://gateway-service:8080/users/" + id, UserModel.class);
+            return restTemplate.postForObject("http://django:8000/payment/", null, String.class);
         } catch(HttpClientErrorException e) {
             if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
                 return null;

@@ -5,6 +5,7 @@ import com.ecommerce.order.models.OrderDetailModel;
 import com.ecommerce.order.models.OrderModel;
 import com.ecommerce.order.services.OrderService;
 import com.ecommerce.order.services.UserService;
+import com.ecommerce.order.services.ExternalService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
@@ -20,10 +21,12 @@ public class OrderController {
 
     final OrderService orderService;
     final UserService userService;
+    final ExternalService externalService;
 
-    public OrderController(OrderService orderService, UserService userService) {
+    public OrderController(OrderService orderService, UserService userService, ExternalService externalService) {
         this.orderService = orderService;
         this.userService = userService;
+        this.externalService = externalService;
     }
 
     @PostMapping("/orders")
@@ -53,5 +56,10 @@ public class OrderController {
         }
 
         return ResponseEntity.status(HttpStatus.OK).body(orderDetailModel);
+    }
+
+    @GetMapping("/test")
+    public ResponseEntity<String> getTest() {
+        return ResponseEntity.status(HttpStatus.OK).body(externalService.getTest());
     }
 }
