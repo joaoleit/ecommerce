@@ -4,8 +4,8 @@ build:
 	cd order && mvn clean package -DskipTests
 	cd gateway && mvn clean package -DskipTests
 	# Builda os containers
-	docker-compose build
+	docker compose build
 
 up:
 	# Sobe os containers
-	docker-compose up
+	docker compose up

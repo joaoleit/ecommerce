@@ -33,3 +33,54 @@ build/
 .vscode/
 
 /logs/
+
+# Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.db
+*.sqlite3
+
+# Environments
+.env
+.venv/
+env/
+venv/
+
+# PyCharm
+.idea/
+
+# VS Code
+.vscode/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Django
+*.log
+local_settings.py
+db.sqlite3
+media/
+
+# Flask
+instance/
+
+# mypy
+.mypy_cache/
+
+# pytest
+.cache/
+
+# Coverage reports
+coverage.xml
+*.cover
+*.py,cover
+*.gcda
+*.gcno
+*.gcov
+*.nib
+*.d
+*.gcov
+
+
