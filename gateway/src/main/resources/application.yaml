@@ -14,3 +14,13 @@ spring:
             - Path=/orders, /orders/**
           filters:
             - RewritePath=/orders(?<segment>/.*)?, /api/v1/orders${segment}
+        - id: payment-service
+          uri: http://payment-service:8084
+          predicates:
+            - Path=/payment
+          filters:
+            - RewritePath=/payment, /api/v1/payment
+        - id: create-order
+          uri: http://orchestrator-service:8085
+          predicates:
+            - Path=/create-order

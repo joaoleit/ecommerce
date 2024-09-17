@@ -24,6 +24,8 @@ public class OrderModel implements Serializable {
     @Column(name = "items", nullable = false)
     private List<String> items = new ArrayList<>();
 
+    private String status;
+
     public UUID getId() {
         return id;
     }
@@ -46,5 +48,13 @@ public class OrderModel implements Serializable {
 
     public void setItems(List<String> items) {
         this.items = items;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

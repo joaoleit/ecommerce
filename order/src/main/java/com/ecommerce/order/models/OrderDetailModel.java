@@ -9,6 +9,7 @@ public class OrderDetailModel {
     private String name;
     private String email;
     private List<String> items;
+    private String status;
 
     public OrderDetailModel(OrderModel order, UserModel user) {
         this.id = order.getId();
@@ -16,6 +17,7 @@ public class OrderDetailModel {
         this.name = user.getName();
         this.email = user.getEmail();
         this.items = order.getItems();
+        this.status = order.getStatus();
     }
 
     public UUID getId() {
@@ -56,5 +58,13 @@ public class OrderDetailModel {
 
     public void setItems(List<String> items) {
         this.items = items;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
