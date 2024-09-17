@@ -7,10 +7,11 @@ import com.ecommerce.orchestrator.dtos.OrderRecordDto;
 import com.ecommerce.orchestrator.dtos.OrderStatusDto;
 import com.ecommerce.orchestrator.dtos.PaymentRecordDto;
 import com.ecommerce.orchestrator.models.OrderModel;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public class OrchestrationService {
@@ -25,20 +26,26 @@ public class OrchestrationService {
     }
 
     public OrderModel createOrder(OrderRecordDto orderRecordDto) {
-        // Check if userId is valid
         var userModel = usersClient.getUser(orderRecordDto.userId());
         if (userModel == null) {
             return null;
         }
 
         var orderModel = ordersClient.createOrder(orderRecordDto);
+        LoggerFactory.getLogger(OrchestrationService.class).info("CREATED ORDER");
+        LoggerFactory.getLogger(OrchestrationService.class).info(orderModel.getStatus());
         var orderId = orderModel.getId();
 
-        var paymentRecord = new PaymentRecordDto(orderId, calculateAmount(orderModel.getItems()), "credit");
-        var payment = paymentClient.makePayment(paymentRecord);
-
-        var orderStatus = new OrderStatusDto(payment.getStatus());
-        ordersClient.updateOrderStatus(orderId, orderStatus);
+        CompletableFuture.runAsync(() -> {
+            try {
+                var paymentRecord = new PaymentRecordDto(orderId, calculateAmount(orderModel.getItems()), "credit");
+                var payment = paymentClient.makePayment(paymentRecord);
+                var orderStatus = new OrderStatusDto(payment.getStatus());
+                ordersClient.updateOrderStatus(orderId, orderStatus);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
 
         return orderModel;
     }

@@ -14,6 +14,6 @@ class PaymentView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
-        time.sleep(random.uniform(1, 5))
-        m = random.choice(['SUCCESS', 'FAILURE'])
+        time.sleep(random.uniform(30, 50))
+        m = random.choice(['SUCCESS', 'SUCCESS', 'FAILURE'])
         return Response(m, status=status.HTTP_200_OK)

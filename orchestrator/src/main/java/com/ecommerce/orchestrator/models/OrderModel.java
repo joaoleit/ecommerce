@@ -33,4 +33,12 @@ public class OrderModel {
     public void setItems(List<String> items) {
         this.items = items;
     }
+    
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
