@@ -25,6 +25,14 @@ public class OrderService {
         return orderRepository.save(orderModel);
     }
 
+    public void updateStatus(UUID orderId, String status) {
+        var order = orderRepository.findById(orderId);
+        if (order.isEmpty()) return;
+        var orderModel = order.get();
+        orderModel.setStatus(status);
+        orderRepository.save(orderModel);
+    }
+
     public List<OrderModel> findAll() {
         return orderRepository.findAll();
     }

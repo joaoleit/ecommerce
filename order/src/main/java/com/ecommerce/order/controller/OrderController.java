@@ -1,11 +1,11 @@
 package com.ecommerce.order.controller;
 
 import com.ecommerce.order.dtos.OrderRecordDto;
+import com.ecommerce.order.dtos.OrderStatusDto;
 import com.ecommerce.order.models.OrderDetailModel;
 import com.ecommerce.order.models.OrderModel;
 import com.ecommerce.order.services.OrderService;
 import com.ecommerce.order.services.UserService;
-import com.ecommerce.order.services.ExternalService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
@@ -21,22 +21,17 @@ public class OrderController {
 
     final OrderService orderService;
     final UserService userService;
-    final ExternalService externalService;
 
-    public OrderController(OrderService orderService, UserService userService, ExternalService externalService) {
+    public OrderController(OrderService orderService, UserService userService) {
         this.orderService = orderService;
         this.userService = userService;
-        this.externalService = externalService;
     }
 
     @PostMapping("/orders")
     public ResponseEntity<?> saveOrder(@RequestBody @Valid OrderRecordDto orderRecordDto) {
-        if (userService.getUserById(orderRecordDto.userId()) == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid userId: User does not exist.");
-        }
-
         var orderModel = new OrderModel();
         BeanUtils.copyProperties(orderRecordDto, orderModel);
+        orderModel.setStatus("PENDING");
         return ResponseEntity.status(HttpStatus.CREATED).body(orderService.save(orderModel));
     }
 
@@ -58,8 +53,12 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(orderDetailModel);
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<String> getTest() {
-        return ResponseEntity.status(HttpStatus.OK).body(externalService.getTest());
+    @PutMapping("/orders/{orderId}/status")
+    public ResponseEntity<?> updateOrderStatus(@PathVariable UUID orderId, @RequestBody OrderStatusDto orderStatusDto) {
+        if (orderId == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        orderService.updateStatus(orderId, orderStatusDto.status());
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 }
